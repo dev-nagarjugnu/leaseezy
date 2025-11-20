@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LeaseEzy
 
-## Getting Started
+LeaseEzy is a premium, high-speed B2B real estate portfolio built with Next.js 15 and powered by Sanity. Admins curate flagship commercial properties, while brands and builders browse, evaluate specs, and send inquiries without creating an account.
 
-First, run the development server:
+## Project Overview
+- **Audience:** Corporate real estate teams, enterprise tenants, builders
+- **Goal:** Deliver a Cushman & Wakefield-inspired experience with instant-load hero sliders, property spotlights, and deep-dive detail pages
+- **Content Source:** All property metadata (title, location, amenities, galleries, pricing) lives in Sanity and is queried at build/request time
+- **Deployment Target:** Vercel with strict web vitals budgets
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Tech Stack
+- **Framework:** Next.js 15 (App Router, React Server Components)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS (mobile-first, design tokens)
+- **CMS:** Sanity.io with `next-sanity` client helpers
+- **Animations:** Framer Motion (hero slider, intersection fade-ins)
+- **Icons:** Lucide React
+- **Images:** `next/image` everywhere for responsive, optimized media
+- **Deployment:** Vercel edge network
+
+## Folder Structure
+```
+app/                # App Router routes (home, properties, dynamic slug pages)
+public/             # Static assets that do not belong in Sanity
+sanity.config.ts    # Sanity Studio configuration mounted at /studio
+sanity/
+  env.ts            # Environment variable helpers for Sanity values
+  lib/client.ts     # Reusable next-sanity client
+  schema.ts         # Combined schema registry
+  schemas/
+    property.ts     # Property document definition
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Getting Started
+1. **Install dependencies**
+   ```bash
+   npm install
+   ```
+2. **Configure env vars** in `.env.local` (see the sample below) so both Next.js and Sanity clients share the same values.
+   ```bash
+   NEXT_PUBLIC_SANITY_PROJECT_ID=yourProjectId
+   NEXT_PUBLIC_SANITY_DATASET=production
+   NEXT_PUBLIC_SANITY_API_VERSION=2024-01-01
+   NEXT_PUBLIC_SANITY_USE_CDN=true
+   ```
+3. **Run the Next.js dev server**
+   ```bash
+   npm run dev
+   ```
+4. **(Optional) Launch Sanity Studio locally** once you have content editors set up:
+   ```bash
+   npx sanity dev
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Key Features
+- Property catalogue landing page with fast filtering and featured hero
+- Dedicated SEO-friendly routes per property: `/properties/[slug]`
+- High-resolution hero sliders driven by Framer Motion and `next/image`
+- Amenities, pricing, area, gallery, and descriptive content managed in Sanity
+- Inquiry CTAs wired for B2B lead capture (email, WhatsApp, or embedded forms)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Next Steps
+- Wire property list/detail queries with GROQ fragments
+- Implement Framer Motion-powered hero carousel fed by Sanity
+- Connect inquiry forms to the desired backend (HubSpot, custom API, etc.)
