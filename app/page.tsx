@@ -7,6 +7,7 @@ import FeaturedDeals from '@/components/FeaturedDeals';
 import Testimonials from '@/components/Testimonials';
 import FindYourSpace from '@/components/FindYourSpace';
 import ServiceHighlights from '@/components/ServiceHighlights';
+import WhyLeaseEzy from '@/components/WhyLeaseEzy';
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
         <FeaturedDeals />
         <Testimonials />
         <ServiceHighlights />
+        <WhyLeaseEzy />
         <WhyChooseUs />
         <ClientLogos />
       </main>
