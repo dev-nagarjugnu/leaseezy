@@ -26,15 +26,17 @@ const benefits = [
 
 export function BusinessLifestyle() {
   return (
-    <section className="bg-[#F8FAFC] py-20 text-brand-navy">
+    <section className="bg-gradient-to-b from-[#0B1120] via-[#323d4f] to-[#f4f7fb] py-20 text-brand-navy">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 md:px-8">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-          <div className="space-y-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.5em] text-brand-red">The LeaseEzy Advantage</p>
-            <h2 className="font-heading text-3xl font-bold md:text-4xl">
+          <div className="space-y-6 text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.35)]">
+            <p className="text-xs font-semibold uppercase tracking-[0.5em] text-brand-red">
+              The LeaseEzy Advantage
+            </p>
+            <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
               A workspace tailor-made for your growth.
             </h2>
-            <p className="text-base leading-relaxed text-slate-600 md:text-lg">
+            <p className="text-base leading-relaxed text-slate-200 md:text-lg">
               With diverse commercial options, you&apos;re not just choosing an office; you&apos;re crafting a headquarters that
               reflects your brand&apos;s ambition. Beyond mere leasing, we support your business expansion, hassle-free.
             </p>

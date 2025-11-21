@@ -5,7 +5,8 @@ import WhyChooseUs from '@/components/WhyChooseUs';
 import ClientLogos from '@/components/ClientLogos';
 import FeaturedDeals from '@/components/FeaturedDeals';
 import Testimonials from '@/components/Testimonials';
-import BusinessLifestyle from '@/components/BusinessLifestyle';
+import FindYourSpace from '@/components/FindYourSpace';
+import ServiceHighlights from '@/components/ServiceHighlights';
 
 export default function Home() {
   return (
@@ -13,9 +14,10 @@ export default function Home() {
       <Navbar />
       <main className="flex flex-col gap-0">
         <Hero />
+        <FindYourSpace />
         <FeaturedDeals />
-        <BusinessLifestyle />
         <Testimonials />
+        <ServiceHighlights />
         <WhyChooseUs />
         <ClientLogos />
       </main>
