@@ -38,9 +38,9 @@ export async function FeaturedProperties() {
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {properties.map((property) => {
-            const imageUrl =
-              property.mainImage &&
-              urlFor(property.mainImage).width(800).height(450).fit('crop').url();
+            const imageUrl = property.mainImage
+              ? urlFor(property.mainImage).width(800).height(450).fit('crop').url()
+              : '';
 
             return (
               <article
@@ -48,7 +48,7 @@ export async function FeaturedProperties() {
                 className="group flex flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
               >
                 <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-200">
-                  {imageUrl ? (
+                  {typeof imageUrl === 'string' && imageUrl.length > 0 ? (
                     <Image
                       src={imageUrl}
                       alt={property.title}
