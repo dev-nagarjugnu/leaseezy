@@ -1,7 +1,6 @@
 import Footer from '@/components/Footer';
 import Hero from '@/components/Hero';
 import Navbar from '@/components/Navbar';
-import ClientLogos from '@/components/ClientLogos';
 import FeaturedDeals from '@/components/FeaturedDeals';
 import Testimonials from '@/components/Testimonials';
 import FindYourSpace from '@/components/FindYourSpace';
@@ -19,7 +18,6 @@ export default function Home() {
         <Testimonials />
         <ServiceHighlights />
         <WhyLeaseEzy />
-        <ClientLogos />
       </main>
       <Footer />
     </div>

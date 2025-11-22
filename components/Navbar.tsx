@@ -18,24 +18,24 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white text-brand-navy">
       <nav className="mx-auto flex w-full items-center justify-between px-6 py-4 md:px-12">
-        <Link href="/" className="flex flex-shrink-0 items-center gap-3 pl-1 md:pl-0">
+        <Link href="/" className="flex flex-shrink-0 items-center gap-3 pl-10 md:pl-10">
           <Image
             src="/logo.jpeg"
             alt="LeaseEzy logo"
             width={280}
             height={84}
-            className="h-20 w-auto object-contain md:h-[5.5rem]"
+            className="h-16 w-auto object-contain md:h-[5.0rem]"
             priority
           />
         </Link>
 
-        <div className="hidden items-center gap-10 md:flex">
-          <div className="flex items-center gap-8 text-sm font-semibold uppercase tracking-[0.45em] text-brand-navy/80">
+        <div className="hidden items-center gap-8 md:flex md:pr-8">
+          <div className="flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="font-heading transition-colors hover:text-brand-red hover:text-opacity-100"
+                className="font-heading text-[15px] font-medium tracking-wide text-brand-navy transition-all duration-300 hover:text-brand-red"
               >
                 {link.label}
               </Link>
@@ -43,9 +43,23 @@ export function Navbar() {
           </div>
           <Link
             href="#properties"
-            className="bg-brand-red px-6 py-3 text-xs font-semibold uppercase tracking-[0.35em] text-white transition hover:bg-brand-red/90"
+            className="group relative overflow-hidden rounded-lg bg-gradient-to-r from-slate-700 via-slate-600 to-slate-700 px-7 py-3.5 font-heading text-sm font-semibold tracking-wide text-white shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-105"
           >
-            Browse
+            {/* Rich dark silver gradient texture */}
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-500/30 via-slate-400/20 to-slate-600/30 opacity-50 group-hover:opacity-70 transition-opacity" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-800/40 via-transparent to-transparent" />
+            
+            {/* Premium silver border accent */}
+            <div className="absolute inset-0 rounded-lg border border-slate-400/40 group-hover:border-slate-300/60 transition-colors" />
+            <div className="absolute inset-[1px] rounded-lg border border-slate-500/30" />
+            
+            {/* Shimmer effect on hover */}
+            <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-slate-300/40 to-transparent group-hover:translate-x-full transition-transform duration-700" />
+            
+            {/* Text content - highly readable white text */}
+            <span className="relative z-10 flex items-center gap-2 font-heading font-bold text-white drop-shadow-lg">
+              Explore Properties
+            </span>
           </Link>
         </div>
 
@@ -83,13 +97,13 @@ export function Navbar() {
           </button>
         </div>
 
-        <div className="mt-8 flex flex-col gap-4 text-lg font-semibold">
+        <div className="mt-8 flex flex-col gap-5">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="text-brand-navy transition hover:text-brand-red"
+              className="font-heading text-lg font-medium tracking-wide text-brand-navy transition-all duration-300 hover:text-brand-red"
             >
               {link.label}
             </Link>
@@ -99,9 +113,23 @@ export function Navbar() {
         <Link
           href="#properties"
           onClick={() => setIsOpen(false)}
-          className="mt-12 inline-flex w-full items-center justify-center rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold uppercase tracking-[0.4em] text-white"
+          className="group relative mt-12 inline-flex w-full items-center justify-center overflow-hidden rounded-lg bg-gradient-to-r from-slate-700 via-slate-600 to-slate-700 px-6 py-3.5 font-heading text-sm font-semibold tracking-wide text-white shadow-xl transition-all duration-300 hover:shadow-2xl"
         >
-          Browse Properties
+          {/* Rich dark silver gradient texture */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-500/30 via-slate-400/20 to-slate-600/30 opacity-50 group-hover:opacity-70 transition-opacity" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-800/40 via-transparent to-transparent" />
+          
+          {/* Premium silver border accent */}
+          <div className="absolute inset-0 rounded-lg border border-slate-400/40 group-hover:border-slate-300/60 transition-colors" />
+          <div className="absolute inset-[1px] rounded-lg border border-slate-500/30" />
+          
+          {/* Shimmer effect on hover */}
+          <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-slate-300/40 to-transparent group-hover:translate-x-full transition-transform duration-700" />
+          
+          {/* Text content - highly readable white text */}
+          <span className="relative z-10 font-heading font-bold text-white drop-shadow-lg">
+            Explore Properties
+          </span>
         </Link>
       </div>
     </header>
