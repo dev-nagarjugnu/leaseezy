@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Search } from 'lucide-react';
 
 const navLinks = [
   { label: 'Solutions', href: '#solutions' },
@@ -14,72 +14,83 @@ const navLinks = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white text-brand-navy">
-      <nav className="mx-auto flex w-full items-center justify-between px-6 py-4 md:px-12">
-        <Link href="/" className="flex flex-shrink-0 items-center gap-3 pl-10 md:pl-10">
+    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white backdrop-blur-sm bg-opacity-95">
+      <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 md:px-8 lg:px-12">
+        {/* Logo */}
+        <Link href="/" className="flex flex-shrink-0 items-center gap-2">
           <Image
             src="/logo.jpeg"
             alt="LeaseEzy logo"
-            width={280}
-            height={84}
-            className="h-16 w-auto object-contain md:h-[5.0rem]"
+            width={200}
+            height={60}
+            className="h-12 w-auto object-contain md:h-14"
             priority
           />
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex md:pr-8">
-          <div className="flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="font-heading text-[15px] font-medium tracking-wide text-brand-navy transition-all duration-300 hover:text-brand-red"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-          <Link
-            href="#properties"
-            className="group relative overflow-hidden rounded-lg bg-gradient-to-r from-slate-700 via-slate-600 to-slate-700 px-7 py-3.5 font-heading text-sm font-semibold tracking-wide text-white shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-105"
-          >
-            {/* Rich dark silver gradient texture */}
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-500/30 via-slate-400/20 to-slate-600/30 opacity-50 group-hover:opacity-70 transition-opacity" />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-800/40 via-transparent to-transparent" />
-            
-            {/* Premium silver border accent */}
-            <div className="absolute inset-0 rounded-lg border border-slate-400/40 group-hover:border-slate-300/60 transition-colors" />
-            <div className="absolute inset-[1px] rounded-lg border border-slate-500/30" />
-            
-            {/* Shimmer effect on hover */}
-            <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-slate-300/40 to-transparent group-hover:translate-x-full transition-transform duration-700" />
-            
-            {/* Text content - highly readable white text */}
-            <span className="relative z-10 flex items-center gap-2 font-heading font-bold text-white drop-shadow-lg">
-              Explore Properties
-            </span>
-          </Link>
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center gap-8 flex-1 justify-center">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="font-heading text-[15px] font-medium tracking-wide text-gray-900 transition-colors duration-200 hover:text-brand-blue"
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
 
-        <button
-          type="button"
-          onClick={() => setIsOpen(true)}
-          className="rounded-2xl border border-brand-navy/30 bg-white p-3 text-brand-navy shadow-lg md:hidden"
-          aria-label="Open navigation menu"
-        >
-          <Menu className="size-5" />
-        </button>
+        {/* Search Bar & Actions */}
+        <div className="hidden lg:flex items-center gap-4">
+          {/* Search Bar */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <Search className="h-4 w-4 text-gray-400" />
+            </div>
+            <input
+              type="text"
+              placeholder="Search items, collections, account"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-64 pl-10 pr-4 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent text-gray-900 placeholder-gray-400 transition-all duration-200"
+            />
+          </div>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <div className="flex lg:hidden items-center gap-3">
+          {/* Mobile Search Icon */}
+          <button
+            type="button"
+            className="p-2.5 rounded-lg bg-gray-100 text-gray-700"
+            aria-label="Search"
+          >
+            <Search className="h-5 w-5" />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsOpen(true)}
+            className="p-2.5 rounded-lg bg-gray-100 text-gray-700"
+            aria-label="Open navigation menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        </div>
       </nav>
 
+      {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 z-50 bg-white px-6 py-6 text-brand-navy transition-transform duration-300 ease-out md:hidden ${
+        className={`fixed inset-0 z-50 bg-white px-6 py-6 transition-transform duration-300 ease-out lg:hidden ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         aria-hidden={!isOpen}
       >
-        <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+        <div className="flex items-center justify-between border-b border-gray-200 pb-4 mb-6">
           <Image
             src="/logo.jpeg"
             alt="LeaseEzy logo"
@@ -90,47 +101,40 @@ export function Navbar() {
           <button
             type="button"
             onClick={() => setIsOpen(false)}
-            className="rounded-2xl border border-brand-navy/30 bg-white p-3 text-brand-navy shadow-sm"
+            className="p-2.5 rounded-lg bg-gray-100 text-gray-700"
             aria-label="Close navigation menu"
           >
-            <X className="size-5" />
+            <X className="h-5 w-5" />
           </button>
         </div>
 
-        <div className="mt-8 flex flex-col gap-5">
+        {/* Mobile Search */}
+        <div className="relative mb-6">
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <Search className="h-4 w-4 text-gray-400" />
+          </div>
+          <input
+            type="text"
+            placeholder="Search items, collections, account"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent text-gray-900 placeholder-gray-400"
+          />
+        </div>
+
+        {/* Mobile Navigation Links */}
+        <div className="flex flex-col gap-4">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="font-heading text-lg font-medium tracking-wide text-brand-navy transition-all duration-300 hover:text-brand-red"
+              className="font-heading text-lg font-medium tracking-wide text-gray-900 transition-colors duration-200 hover:text-brand-blue py-2"
             >
               {link.label}
             </Link>
           ))}
         </div>
-
-        <Link
-          href="#properties"
-          onClick={() => setIsOpen(false)}
-          className="group relative mt-12 inline-flex w-full items-center justify-center overflow-hidden rounded-lg bg-gradient-to-r from-slate-700 via-slate-600 to-slate-700 px-6 py-3.5 font-heading text-sm font-semibold tracking-wide text-white shadow-xl transition-all duration-300 hover:shadow-2xl"
-        >
-          {/* Rich dark silver gradient texture */}
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-500/30 via-slate-400/20 to-slate-600/30 opacity-50 group-hover:opacity-70 transition-opacity" />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-800/40 via-transparent to-transparent" />
-          
-          {/* Premium silver border accent */}
-          <div className="absolute inset-0 rounded-lg border border-slate-400/40 group-hover:border-slate-300/60 transition-colors" />
-          <div className="absolute inset-[1px] rounded-lg border border-slate-500/30" />
-          
-          {/* Shimmer effect on hover */}
-          <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-slate-300/40 to-transparent group-hover:translate-x-full transition-transform duration-700" />
-          
-          {/* Text content - highly readable white text */}
-          <span className="relative z-10 font-heading font-bold text-white drop-shadow-lg">
-            Explore Properties
-          </span>
-        </Link>
       </div>
     </header>
   );
