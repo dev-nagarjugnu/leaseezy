@@ -6,6 +6,9 @@ import Testimonials from '@/components/Testimonials';
 import FindYourSpace from '@/components/FindYourSpace';
 import ServiceHighlights from '@/components/ServiceHighlights';
 import WhyLeaseEzy from '@/components/WhyLeaseEzy';
+import NewsletterSection from '@/components/NewsletterSection';
+import CategorySection from '@/components/BrowseListings';
+import TrustCTASection from '@/components/ActionBar';
 
 export default function Home() {
   return (
@@ -13,11 +16,14 @@ export default function Home() {
       <Navbar />
       <main className="flex flex-col gap-0">
         <Hero />
+        <TrustCTASection />
         <FindYourSpace />
         <FeaturedDeals />
         <Testimonials />
+        <CategorySection />
         <ServiceHighlights />
         <WhyLeaseEzy />
+        <NewsletterSection />
       </main>
       <Footer />
     </div>

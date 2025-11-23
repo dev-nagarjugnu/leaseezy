@@ -4,7 +4,7 @@ import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-gradient-to-b from-slate-800 via-slate-800/95 to-slate-900 text-white">
+    <footer className="relative overflow-hidden bg-gradient-to-b from-slate-800 via-slate-800/95 to-slate-900 text-white pt-32">
       {/* Subtle geometric shapes in background */}
       <div className="absolute inset-0 opacity-[0.03]">
         <div className="absolute left-10 top-20 h-32 w-1 rotate-12 bg-slate-300" />
