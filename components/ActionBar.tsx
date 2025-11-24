@@ -68,9 +68,11 @@ export function TrustCTASection() {
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
             >
-              <button className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-brand-navy via-slate-800 to-brand-navy text-white font-heading font-bold text-sm uppercase tracking-wider rounded-lg overflow-hidden transition-all hover:from-brand-navy hover:via-brand-blue hover:to-brand-navy hover:shadow-[0_10px_30px_-10px_rgba(15,23,42,0.4)]">
+              <button className="group relative inline-flex items-center gap-4 rounded-full px-10 py-4 font-heading text-base font-semibold text-white tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 focus-visible:ring-offset-transparent">
+                <span className="absolute inset-0 rounded-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 transition-all duration-300 group-hover:from-slate-800 group-hover:via-slate-700 group-hover:to-slate-600" />
+                <span className="absolute inset-1 rounded-full border border-white/20 bg-white/5 shadow-[0_20px_45px_-25px_rgba(15,23,42,0.9)] transition-all duration-300 group-hover:border-white/40" />
                 <span className="relative z-10">Start Your Journey</span>
-                <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
+                <ArrowRight className="relative z-10 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </button>
             </motion.div>
           </div>
@@ -82,7 +84,7 @@ export function TrustCTASection() {
             <GlassCard 
               icon={<Building2 className="w-6 h-6 text-[#1D4ED8]" />}
               bgIcon="bg-blue-50"
-              number="2,500+"
+              number="500+"
               label="Verified Properties"
               delay={0.1}
             />

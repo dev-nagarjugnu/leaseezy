@@ -46,8 +46,8 @@ export function FindYourSpace() {
 
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
             {[
-              { stat: '1,500+', label: 'Happy Families' },
-              { stat: '1,000+', label: 'Luxury Properties' },
+              { stat: '1,200+', label: 'Happy Families' },
+              { stat: '500+', label: 'Luxury Properties' },
             ].map((item) => (
               <div
                 key={item.label}
