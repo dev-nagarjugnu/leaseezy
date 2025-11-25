@@ -95,33 +95,23 @@ export function Footer() {
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="#properties" className="text-slate-300 transition-colors hover:text-white">
-                  Browse Listings
+                <Link href="/properties?category=all" className="text-slate-300 transition-colors hover:text-white">
+                  All Properties
                 </Link>
               </li>
               <li>
-                <Link href="#properties" className="text-slate-300 transition-colors hover:text-white">
-                  Featured Deals
+                <Link href="/properties?category=residential" className="text-slate-300 transition-colors hover:text-white">
+                  Residential
                 </Link>
               </li>
               <li>
-                <Link href="#properties" className="text-slate-300 transition-colors hover:text-white">
-                  Office Spaces
+                <Link href="/properties?category=commercial" className="text-slate-300 transition-colors hover:text-white">
+                  Commercial
                 </Link>
               </li>
               <li>
-                <Link href="#properties" className="text-slate-300 transition-colors hover:text-white">
-                  Retail Properties
-                </Link>
-              </li>
-              <li>
-                <Link href="#properties" className="text-slate-300 transition-colors hover:text-white">
-                  Industrial Facilities
-                </Link>
-              </li>
-              <li>
-                <Link href="#properties" className="text-slate-300 transition-colors hover:text-white">
-                  Business Campuses
+                <Link href="/properties?category=villa" className="text-slate-300 transition-colors hover:text-white">
+                  Villa
                 </Link>
               </li>
             </ul>
@@ -129,35 +119,15 @@ export function Footer() {
 
           {/* Services & Connect */}
           <div className="space-y-6 md:space-y-8">
-            {/* Services */}
+            {/* Resources */}
             <div className="space-y-4">
               <h3 className="font-heading text-sm font-semibold uppercase tracking-wider text-white">
-                Services
+                Resources
               </h3>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <Link href="#solutions" className="text-slate-300 transition-colors hover:text-white">
-                    Property Advisory
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#solutions" className="text-slate-300 transition-colors hover:text-white">
-                    Lease Negotiation
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#solutions" className="text-slate-300 transition-colors hover:text-white">
-                    Site Selection
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#solutions" className="text-slate-300 transition-colors hover:text-white">
-                    Legal Support
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#solutions" className="text-slate-300 transition-colors hover:text-white">
-                    Finance Assistance
+                  <Link href="/blogs" className="text-slate-300 transition-colors hover:text-white">
+                    Blogs
                   </Link>
                 </li>
               </ul>
@@ -223,7 +193,7 @@ export function Footer() {
             
             {/* Certification Badges */}
             <div className="flex flex-wrap items-center justify-center gap-6 md:justify-end">
-              <div className="group relative flex h-24 w-24 items-center justify-center rounded-xl border border-white/15 bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-4 shadow-lg backdrop-blur-sm transition-all hover:border-brand-red/60 hover:bg-gradient-to-br hover:from-slate-700/90 hover:to-slate-800/90 hover:scale-105 hover:shadow-xl">
+              <div className="group relative flex h-24 w-24 items-center justify-center rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-4 shadow-lg backdrop-blur-sm transition-all hover:bg-gradient-to-br hover:from-slate-700/90 hover:to-slate-800/90 hover:scale-105 hover:shadow-xl">
                 <Image
                   src="/iec.png"
                   alt="IEC Certification"
@@ -232,7 +202,7 @@ export function Footer() {
                   className="h-full w-full object-contain"
                 />
               </div>
-              <div className="group relative flex h-24 w-24 items-center justify-center rounded-xl border border-white/15 bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-4 shadow-lg backdrop-blur-sm transition-all hover:border-brand-red/60 hover:bg-gradient-to-br hover:from-slate-700/90 hover:to-slate-800/90 hover:scale-105 hover:shadow-xl">
+              <div className="group relative flex h-24 w-24 items-center justify-center rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-4 shadow-lg backdrop-blur-sm transition-all hover:bg-gradient-to-br hover:from-slate-700/90 hover:to-slate-800/90 hover:scale-105 hover:shadow-xl">
                 <Image
                   src="/sec.png"
                   alt="Security Certification"
@@ -241,7 +211,7 @@ export function Footer() {
                   className="h-full w-full object-contain"
                 />
               </div>
-              <div className="group relative flex h-24 w-24 items-center justify-center rounded-xl border border-white/15 bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-4 shadow-lg backdrop-blur-sm transition-all hover:border-brand-red/60 hover:bg-gradient-to-br hover:from-slate-700/90 hover:to-slate-800/90 hover:scale-105 hover:shadow-xl">
+              <div className="group relative flex h-24 w-24 items-center justify-center rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-4 shadow-lg backdrop-blur-sm transition-all hover:bg-gradient-to-br hover:from-slate-700/90 hover:to-slate-800/90 hover:scale-105 hover:shadow-xl">
                 <Image
                   src="/ssl.png"
                   alt="SSL Certified"

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   MapPin, 
@@ -197,6 +198,7 @@ export default function PropertiesPage() {
   const [activeCategory, setActiveCategory] = useState<Category>("All");
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [showFilters, setShowFilters] = useState(false);
+  const searchParams = useSearchParams();
   
   // Filter States
   const [filterLocation, setFilterLocation] = useState("All");
@@ -215,6 +217,22 @@ export default function PropertiesPage() {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const categoryParam = searchParams.get("category");
+    if (!categoryParam) return;
+    const map: Record<string, Category> = {
+      all: "All",
+      residential: "Residential",
+      commercial: "Commercial",
+      villa: "Villa",
+    };
+    const normalized = categoryParam.toLowerCase();
+    const mappedCategory = map[normalized];
+    if (mappedCategory && mappedCategory !== activeCategory) {
+      setActiveCategory(mappedCategory);
+    }
+  }, [searchParams, activeCategory]);
 
   // Complex Filtering Logic
   const filteredProperties = properties.filter((p) => {

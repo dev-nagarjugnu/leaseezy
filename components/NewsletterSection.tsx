@@ -26,7 +26,7 @@ export function NewsletterSection() {
           fill
           className="object-cover object-center"
           priority
-          quality={100}
+          quality={75}
           sizes="100vw"
         />
         {/* Optional: Subtle dark overlay if your text needs more pop, currently removed based on your request */}
