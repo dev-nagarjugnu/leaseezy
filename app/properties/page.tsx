@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -194,7 +194,7 @@ const FilterButton = ({ active, onClick, label }: { active: boolean; onClick: ()
 
 // --- Main Page Component ---
 
-export default function PropertiesPage() {
+function PropertiesContent() {
   const [activeCategory, setActiveCategory] = useState<Category>("All");
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [showFilters, setShowFilters] = useState(false);
@@ -515,5 +515,13 @@ export default function PropertiesPage() {
       
       <Footer />
     </div>
+  );
+}
+
+export default function PropertiesPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-slate-50 text-[#0F172A] font-heading text-lg">Loading properties...</div>}>
+      <PropertiesContent />
+    </Suspense>
   );
 }
