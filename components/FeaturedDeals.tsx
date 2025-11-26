@@ -1,6 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { ArrowUpRight, MapPin } from 'lucide-react';
 
+/* 
+  Ideally, these images should be office buildings. 
+  Ensure your /public folder has these images or replace them later.
+*/
 const deals = [
   {
     id: 'deal-1',
@@ -86,48 +91,67 @@ const deals = [
 
 export function FeaturedDeals() {
   return (
-    <section className="bg-white py-16 text-brand-navy md:py-20">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 md:px-8">
+    <section className="bg-brand-gray py-20 lg:py-28 text-brand-navy">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-6 lg:px-8">
+        
+        {/* Header */}
         <div className="flex flex-col gap-4 text-center md:text-left">
-          <p className="text-xs font-semibold uppercase tracking-[0.5em] text-brand-red">
-            Featured Deals
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red">
+            Exclusive Mandates
           </p>
-          <h2 className="font-heading text-3xl font-bold md:text-4xl">Signature Exclusives</h2>
-          <p className="text-base text-slate-600 md:text-lg">
-            Handpicked Grade-A assets across India&apos;s most coveted micro-markets.
+          <h2 className="font-heading text-3xl font-bold md:text-5xl text-brand-navy">
+            Signature Deals
+          </h2>
+          <p className="text-lg text-slate-600 max-w-2xl">
+            Handpicked Grade-A assets across India&apos;s most coveted business districts.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+        {/* Grid */}
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {deals.map((deal) => (
             <article
               key={deal.id}
-              className="relative overflow-hidden rounded-3xl bg-brand-navy shadow-xl transition hover:-translate-y-1"
+              className="group relative overflow-hidden rounded-2xl bg-white shadow-sm border border-slate-200 transition-all duration-300 hover:shadow-2xl hover:border-brand-navy/20 hover:-translate-y-2"
             >
-              <div className="relative h-72 w-full">
+              {/* Image Section */}
+              <div className="relative h-64 w-full overflow-hidden">
                 <Image
                   src={deal.image}
                   alt={deal.title}
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
                   sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 420px"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                <div className="absolute top-4 left-4 bg-brand-navy/90 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full backdrop-blur-sm">
+                  {deal.status}
+                </div>
               </div>
 
-              <div className="absolute inset-0 flex flex-col justify-between p-6 text-white">
-                <div className="space-y-1">
-                  <p className="text-sm uppercase tracking-[0.35em] text-white/70">{deal.status}</p>
-                  <h3 className="text-xl font-semibold leading-tight">{deal.title}</h3>
-                  <p className="text-base text-white/90">{deal.location}</p>
+              {/* Content Section */}
+              <div className="flex flex-col justify-between p-6">
+                <div>
+                  <h3 className="font-heading text-lg font-bold text-brand-navy leading-tight mb-2">
+                    {deal.title}
+                  </h3>
+                  <p className="flex items-center gap-1.5 text-xs font-bold text-slate-500 uppercase tracking-wide mb-4">
+                    <MapPin className="h-3.5 w-3.5 text-brand-red" />
+                    {deal.location}
+                  </p>
                 </div>
-                <div className="space-y-3">
-                  <p className="text-sm text-white/80">Total Area: {deal.area}</p>
+                
+                <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] uppercase font-bold text-slate-400">Leasable Area</span>
+                    <span className="text-sm font-bold text-brand-navy">{deal.area}</span>
+                  </div>
+                  
                   <Link
                     href="#contact"
-                    className="inline-flex items-center justify-center rounded-full border border-white/60 bg-white/10 px-5 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white transition hover:bg-brand-red hover:border-brand-red hover:text-white"
+                    className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-red hover:text-brand-navy transition-colors"
                   >
-                    View Property
+                    View Details
+                    <ArrowUpRight className="h-4 w-4" />
                   </Link>
                 </div>
               </div>
@@ -140,4 +164,3 @@ export function FeaturedDeals() {
 }
 
 export default FeaturedDeals;
-

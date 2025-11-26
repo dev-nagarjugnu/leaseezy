@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Menu, X, Search, ChevronRight, Sparkles } from 'lucide-react';
+import { Menu, X, ChevronRight, ArrowUpRight, Search } from 'lucide-react';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +11,7 @@ export function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 10);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -19,161 +19,156 @@ export function Navbar() {
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-in-out border-b ${
         scrolled 
-          ? 'bg-white/95 backdrop-blur-md shadow-sm py-3' 
-          : 'bg-white py-5 border-b border-transparent'
+          ? 'bg-white/95 backdrop-blur-xl shadow-sm border-slate-200 py-3' 
+          : 'bg-white border-slate-100 py-5' // Kept relatively slim even at top
       }`}
     >
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 lg:px-8">
+      {/* Container: Using grid for perfect centering of the Nav */}
+      <div className="mx-auto w-full max-w-7xl px-6 lg:px-8 grid grid-cols-2 lg:grid-cols-12 items-center">
         
-        {/* 1. LOGO */}
-        <Link href="/" className="flex-shrink-0 relative z-50">
-          <Image
-            src="/logo.jpeg"
-            alt="LeaseEzy logo"
-            width={160}
-            height={50}
-            className="h-10 w-auto object-contain cursor-pointer"
-            priority
-          />
-        </Link>
-
-        {/* 2. DESKTOP NAVIGATION */}
-        <div className="hidden lg:flex items-center gap-8">
-          
-          {/* Standard Links */}
-          <Link href="/solution" className="group relative font-heading text-sm font-semibold text-slate-600 hover:text-[#0F172A] transition-colors">
-            Solutions
-            <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-[#0F172A] transition-all duration-300 group-hover:w-full" />
+        {/* 1. LOGO (Left Side - lg:col-span-3) */}
+        {/* Expanded width to w-64 to ensure Tagline is readable without making header tall */}
+        <div className="lg:col-span-3 flex items-center justify-start">
+          <Link href="/" className="relative z-50 block group">
+            <div className={`relative transition-all duration-500 ease-in-out ${scrolled ? 'h-12 w-56' : 'h-14 w-64'}`}>
+              <Image
+                src="/logo.jpeg"
+                alt="LeaseEzy Commercial"
+                fill
+                className="object-contain object-left" 
+                priority
+                sizes="(max-width: 768px) 100vw, 300px"
+              />
+            </div>
           </Link>
-
-          <Link href="/about" className="group relative font-heading text-sm font-semibold text-slate-600 hover:text-[#0F172A] transition-colors">
-            About
-            <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-[#0F172A] transition-all duration-300 group-hover:w-full" />
-          </Link>
-
-          {/* ✨ HIGHLIGHTED PROPERTIES BUTTON ✨ */}
-          {/* Design: Soft Red Pill with Sparkle Icon */}
-          <Link 
-            href="/properties" 
-            className="group flex items-center gap-2 px-5 py-2 rounded-full bg-[#EF4444]/10 text-[#EF4444] border border-[#EF4444]/20 hover:bg-[#EF4444] hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20"
-          >
-            <Sparkles className="w-4 h-4 transition-transform group-hover:rotate-12" />
-            <span className="font-heading text-xs font-bold uppercase tracking-widest">
-              Properties
-            </span>
-          </Link>
-
         </div>
 
-        {/* 3. RIGHT SIDE: Search + Contact CTA */}
-        <div className="hidden lg:flex items-center gap-6">
-          {/* Search */}
-          <div className="relative group">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <Search className="h-4 w-4 text-slate-400 group-focus-within:text-[#1D4ED8] transition-colors" />
-            </div>
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-48 focus:w-64 pl-10 pr-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/20 focus:border-[#1D4ED8] transition-all duration-300 placeholder:text-slate-400 font-body"
-            />
-          </div>
+        {/* 2. DESKTOP NAVIGATION (Center - lg:col-span-6) */}
+        {/* Centered Layout for Premium Symmetry */}
+        <div className="hidden lg:flex lg:col-span-6 justify-center">
+          <nav className="flex items-center gap-8 bg-slate-50/50 px-8 py-2.5 rounded-full border border-slate-100">
+            <NavLink href="/solution">Solutions</NavLink>
+            <div className="w-1 h-1 rounded-full bg-slate-300" />
+            <NavLink href="/properties">Properties</NavLink>
+            <div className="w-1 h-1 rounded-full bg-slate-300" />
+            <NavLink href="/about">Company</NavLink>
+            <div className="w-1 h-1 rounded-full bg-slate-300" />
+            <NavLink href="/careers">Careers</NavLink>
+          </nav>
+        </div>
 
-          {/* Contact Button (Solid Navy) */}
+        {/* 3. ACTION AREA (Right Side - lg:col-span-3) */}
+        <div className="hidden lg:flex lg:col-span-3 justify-end items-center gap-4">
+          
+          {/* Minimal Search Trigger */}
+          <button className="p-2.5 text-slate-400 hover:text-brand-navy hover:bg-slate-50 rounded-full transition-all">
+            <Search className="w-5 h-5" />
+          </button>
+
+          {/* The "Advisory" Button - Sleek & Solid */}
           <Link 
             href="/contact-us"
-            className="px-6 py-2.5 bg-[#0F172A] hover:bg-[#1E293B] text-white text-xs font-bold uppercase tracking-widest rounded-lg transition-colors duration-300 shadow-md"
+            className="group relative overflow-hidden rounded-lg bg-brand-navy px-6 py-2.5 text-white shadow-md shadow-navy-900/10 transition-all hover:shadow-lg hover:shadow-navy-900/20 hover:-translate-y-0.5"
           >
-            Contact
+            <div className="absolute inset-0 bg-white/10 translate-y-full transition-transform duration-300 group-hover:translate-y-0" />
+            <span className="relative flex items-center gap-2 font-heading text-[11px] font-bold uppercase tracking-[0.2em]">
+              Advisory <ArrowUpRight className="h-3.5 w-3.5" />
+            </span>
           </Link>
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          type="button"
-          onClick={() => setIsOpen(true)}
-          className="lg:hidden p-2 text-slate-700 hover:bg-slate-50 rounded-md transition-colors"
-        >
-          <Menu className="h-6 w-6" />
-        </button>
+        {/* Mobile Menu Toggle (Right aligned on mobile) */}
+        <div className="flex lg:hidden justify-end">
+          <button
+            type="button"
+            onClick={() => setIsOpen(true)}
+            className="p-2 text-brand-navy hover:bg-slate-50 rounded-md transition-colors"
+          >
+            <Menu className="h-7 w-7" />
+          </button>
+        </div>
       </div>
 
       {/* --- MOBILE MENU OVERLAY --- */}
       <div
-        className={`fixed inset-0 z-[60] bg-white transition-transform duration-300 ease-in-out lg:hidden ${
+        className={`fixed inset-0 z-[200] bg-white transition-transform duration-500 cubic-bezier(0.4, 0, 0.2, 1) lg:hidden ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         <div className="p-6 h-full flex flex-col">
           {/* Mobile Header */}
-          <div className="flex items-center justify-between mb-8">
-            <Image
-              src="/logo.jpeg"
-              alt="LeaseEzy logo"
-              width={120}
-              height={40}
-              className="h-8 w-auto object-contain"
-            />
+          <div className="flex items-center justify-between mb-10 border-b border-slate-100 pb-6">
+            <div className="relative h-12 w-48">
+              <Image
+                src="/logo.jpeg"
+                alt="LeaseEzy logo"
+                fill
+                className="object-contain object-left"
+              />
+            </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="p-2 bg-slate-50 rounded-full text-slate-500 hover:text-[#EF4444]"
+              className="p-2 bg-slate-50 rounded-full text-slate-500 hover:text-brand-red"
             >
-              <X className="h-5 w-5" />
+              <X className="h-6 w-6" />
             </button>
           </div>
 
-          {/* Mobile Search */}
-          <div className="relative mb-8">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-            <input
-              type="text"
-              placeholder="Search properties..."
-              className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#1D4ED8]"
-            />
-          </div>
-
           {/* Mobile Links */}
-          <div className="flex flex-col gap-2">
-            
-            {/* Properties (Highlighted in Mobile too) */}
-            <Link
-              href="/properties"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center justify-between p-4 rounded-xl bg-red-50 text-[#EF4444] mb-2"
-            >
-              <span className="flex items-center gap-3 font-heading text-lg font-bold">
-                <Sparkles className="w-5 h-5" /> Properties
-              </span>
-              <ChevronRight className="h-5 w-5" />
-            </Link>
-
-            <Link href="/solution" onClick={() => setIsOpen(false)} className="flex items-center justify-between p-4 rounded-xl hover:bg-slate-50 group">
-              <span className="font-heading text-lg font-medium text-slate-700 group-hover:text-[#0F172A]">Solutions</span>
-              <ChevronRight className="h-5 w-5 text-slate-300" />
-            </Link>
-
-            <Link href="/about" onClick={() => setIsOpen(false)} className="flex items-center justify-between p-4 rounded-xl hover:bg-slate-50 group">
-              <span className="font-heading text-lg font-medium text-slate-700 group-hover:text-[#0F172A]">About</span>
-              <ChevronRight className="h-5 w-5 text-slate-300" />
-            </Link>
-
-            <Link href="/contact-us" onClick={() => setIsOpen(false)} className="flex items-center justify-between p-4 rounded-xl hover:bg-slate-50 group">
-              <span className="font-heading text-lg font-medium text-slate-700 group-hover:text-[#0F172A]">Contact</span>
-              <ChevronRight className="h-5 w-5 text-slate-300" />
-            </Link>
-
+          <div className="flex flex-col gap-4">
+            <MobileLink href="/properties" onClick={() => setIsOpen(false)}>Browse Assets</MobileLink>
+            <MobileLink href="/solution" onClick={() => setIsOpen(false)}>Solutions</MobileLink>
+            <MobileLink href="/about" onClick={() => setIsOpen(false)}>Company</MobileLink>
+            <MobileLink href="/careers" onClick={() => setIsOpen(false)}>Careers</MobileLink>
+            <MobileLink href="/blogs" onClick={() => setIsOpen(false)}>Insights</MobileLink>
           </div>
 
-          <div className="mt-auto pt-8 border-t border-slate-100">
-            <p className="text-xs text-center text-slate-400 uppercase tracking-widest">
-              © LeaseEzy 2024
+          {/* Mobile Bottom Action */}
+          <div className="mt-auto">
+            <Link 
+              href="/contact-us"
+              onClick={() => setIsOpen(false)}
+              className="flex w-full items-center justify-center gap-3 bg-brand-navy py-4 text-white font-heading text-xs font-bold uppercase tracking-widest shadow-xl rounded-lg"
+            >
+              Contact Advisory <ArrowUpRight className="w-4 h-4" />
+            </Link>
+            <p className="text-[10px] text-center text-slate-400 mt-6 uppercase tracking-widest">
+              Est. 2024 • Commercial Leasing
             </p>
           </div>
         </div>
       </div>
     </header>
+  );
+}
+
+// --- HELPER COMPONENTS ---
+
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link 
+      href={href} 
+      className="font-heading text-[11px] font-bold text-slate-600 uppercase tracking-[0.15em] hover:text-brand-navy transition-all hover:scale-105"
+    >
+      {children}
+    </Link>
+  );
+}
+
+function MobileLink({ href, onClick, children }: { href: string; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <Link 
+      href={href} 
+      onClick={onClick}
+      className="flex items-center justify-between group p-4 rounded-lg hover:bg-slate-50 transition-colors"
+    >
+      <span className="font-heading text-lg font-bold text-brand-navy group-hover:text-brand-red transition-colors">
+        {children}
+      </span>
+      <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-brand-red transition-colors" />
+    </Link>
   );
 }
 

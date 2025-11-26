@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Maximize2, Camera } from 'lucide-react';
 
 interface PropertyGalleryProps {
   images: string[];
@@ -14,7 +14,12 @@ export default function PropertyGallery({ images, title }: PropertyGalleryProps)
 
   // Safety check if no images are provided
   if (!images || images.length === 0) {
-    return <div className="h-96 bg-slate-200 rounded-2xl flex items-center justify-center text-slate-400">No Images Available</div>;
+    return (
+      <div className="h-[400px] bg-slate-50 rounded-2xl border border-slate-200 flex flex-col items-center justify-center text-slate-400 gap-4">
+        <Camera size={48} className="opacity-20" />
+        <p className="text-sm font-medium">Images not available for this asset</p>
+      </div>
+    );
   }
 
   const nextImage = () => {
@@ -29,7 +34,7 @@ export default function PropertyGallery({ images, title }: PropertyGalleryProps)
     <div className="space-y-4 select-none">
       
       {/* Main Large Image */}
-      <div className="relative h-[300px] sm:h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden shadow-sm group bg-slate-100">
+      <div className="relative h-[300px] sm:h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden shadow-sm border border-slate-100 group bg-slate-100">
         <Image 
           src={images[activeImageIndex]} 
           alt={`${title} - View ${activeImageIndex + 1}`} 
@@ -38,25 +43,27 @@ export default function PropertyGallery({ images, title }: PropertyGalleryProps)
           priority
         />
         
-        {/* Navigation Arrows (Visible on Hover) */}
-        <button 
-          onClick={prevImage}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg backdrop-blur-sm"
-          aria-label="Previous Image"
-        >
-          <ChevronLeft size={24} />
-        </button>
-        
-        <button 
-          onClick={nextImage}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg backdrop-blur-sm"
-          aria-label="Next Image"
-        >
-          <ChevronRight size={24} />
-        </button>
+        {/* Navigation Arrows (Glass Effect) */}
+        <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <button 
+            onClick={(e) => { e.stopPropagation(); prevImage(); }}
+            className="p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white hover:text-brand-navy transition-all shadow-lg"
+            aria-label="Previous Image"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          
+          <button 
+            onClick={(e) => { e.stopPropagation(); nextImage(); }}
+            className="p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white hover:text-brand-navy transition-all shadow-lg"
+            aria-label="Next Image"
+          >
+            <ChevronRight size={24} />
+          </button>
+        </div>
 
         {/* Image Counter Badge */}
-        <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-2">
+        <div className="absolute bottom-4 right-4 bg-brand-navy/90 backdrop-blur-md text-white text-xs font-bold px-4 py-2 rounded-full flex items-center gap-2 border border-white/10 shadow-lg">
             <Maximize2 size={12} />
             {activeImageIndex + 1} / {images.length}
         </div>
@@ -72,7 +79,7 @@ export default function PropertyGallery({ images, title }: PropertyGalleryProps)
               className={`
                 relative w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all snap-start
                 ${activeImageIndex === i 
-                  ? 'border-[#0F172A] opacity-100 shadow-md scale-105' 
+                  ? 'border-brand-navy shadow-md ring-2 ring-brand-navy/20 scale-95' 
                   : 'border-transparent opacity-70 hover:opacity-100 hover:border-slate-300'
                 }
               `}

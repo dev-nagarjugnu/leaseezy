@@ -1,72 +1,74 @@
 'use client';
 
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
+/* 
+  IMPORTANT: 
+  The keys below (office, retail, etc.) map to your existing images. 
+  PLEASE REPLACE THE IMAGE FILES LATER with actual pictures of:
+  - Offices
+  - Shops/Malls
+  - Warehouses
+  - IT Parks
+*/
 const categories = {
-  apartment: {
-    title: 'Apartment',
-    count: '175 Properties',
-    image: '/demo-property-5.jpg', 
+  office: {
+    title: 'Office Spaces',
+    count: 'Premium Corporate Suites',
+    image: '/demo-property-5.jpg', // Replace with Office Image
   },
-  farmhouse: {
-    title: 'Farmhouse',
-    count: '7 Properties',
-    image: '/demo-property-6.jpg',
+  retail: {
+    title: 'Retail Outlets',
+    count: 'High-Street & Mall Spots',
+    image: '/demo-property-6.jpg', // Replace with Shop Image
   },
-  bungalow: {
-    title: 'Bungalow',
-    count: '8 Properties',
-    image: '/demo-property-7.jpg', 
+  industrial: {
+    title: 'Warehousing',
+    count: 'Industrial & Logistics',
+    image: '/demo-property-7.jpg', // Replace with Warehouse Image
   },
-  condo: {
-    title: 'Condominium',
-    count: '4 Properties',
-    image: '/demo-property-8.jpg', 
+  itPark: {
+    title: 'IT Parks / SEZ',
+    count: 'Tech-Enabled Campuses',
+    image: '/demo-property-8.jpg', // Replace with IT Park Image
   },
 };
 
 export function CategorySection() {
   return (
-    <section className="w-full bg-white py-16 sm:py-20 lg:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="w-full bg-white py-20 lg:py-28">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
         
         {/* Grid Container */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 h-auto lg:h-[650px]">
           
-          {/* COLUMN 1: Header + Apartment */}
+          {/* COLUMN 1: Header + Office */}
           <div className="flex flex-col gap-6 h-full">
             
             {/* BRAND HEADER SECTION */}
-            <div className="mb-2">
+            <div className="mb-4">
               <h2 className="relative font-heading text-4xl md:text-5xl font-extrabold text-brand-navy leading-tight">
-                {/* 
-                   BRAND RED ACCENT BOX 
-                   Using brand-red opacity-90 to match the vibe but keep it legible
-                */}
                 <span className="relative z-10 inline-block mr-2">
-                  <span className="absolute -left-2 -top-2 w-12 h-12 bg-brand-red rounded-lg -z-10 opacity-90" />
+                  {/* Red Square Accent behind the 'B' */}
+                  <span className="absolute -left-2 -top-2 w-12 h-12 bg-brand-red/10 rounded-lg -z-10" />
                   B
                 </span>
-                rowse Listings
-                <span className="block mt-1">By Categories</span>
+                rowse <br /> Categories
               </h2>
               
-              {/* BRAND RED SEPARATOR LINE */}
               <div className="h-1.5 w-20 bg-brand-red mt-6 mb-5 rounded-full" />
               
-              {/* BRAND SECTION LABEL PATTERN */}
-              <p className="font-heading text-xs font-semibold uppercase tracking-[0.5em] text-brand-red">
-                Curated by expert real estate agents!
+              <p className="font-heading text-xs font-bold uppercase tracking-widest text-slate-500">
+                Curated for Business Impact
               </p>
             </div>
 
-            {/* Apartment Card */}
-            <div className="relative flex-1 w-full min-h-[280px] rounded-2xl overflow-hidden group cursor-pointer shadow-md">
+            {/* Office Card */}
+            <div className="relative flex-1 w-full min-h-[280px] rounded-2xl overflow-hidden group cursor-pointer shadow-md border border-slate-100">
               <Image
-                src={categories.apartment.image}
-                alt={categories.apartment.title}
+                src={categories.office.image}
+                alt={categories.office.title}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
                 sizes="(max-width: 768px) 100vw, 33vw"
@@ -74,23 +76,23 @@ export function CategorySection() {
               <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-brand-navy/20 to-transparent" />
               <div className="absolute bottom-0 left-0 p-6">
                 <h3 className="font-heading text-2xl font-bold text-white mb-1">
-                  {categories.apartment.title}
+                  {categories.office.title}
                 </h3>
-                <p className="font-body text-sm font-medium text-gray-300">
-                  {categories.apartment.count}
+                <p className="font-body text-sm font-medium text-slate-300">
+                  {categories.office.count}
                 </p>
               </div>
             </div>
           </div>
 
-          {/* COLUMN 2: Farmhouse + Bungalow */}
+          {/* COLUMN 2: Retail + Industrial */}
           <div className="flex flex-col gap-6 h-full">
             
-            {/* Farmhouse Card */}
-            <div className="relative h-[300px] lg:h-1/2 w-full rounded-2xl overflow-hidden group cursor-pointer shadow-md">
+            {/* Retail Card */}
+            <div className="relative h-[300px] lg:h-1/2 w-full rounded-2xl overflow-hidden group cursor-pointer shadow-md border border-slate-100">
               <Image
-                src={categories.farmhouse.image}
-                alt={categories.farmhouse.title}
+                src={categories.retail.image}
+                alt={categories.retail.title}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
                 sizes="(max-width: 768px) 100vw, 33vw"
@@ -98,19 +100,19 @@ export function CategorySection() {
               <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-brand-navy/20 to-transparent" />
               <div className="absolute bottom-0 left-0 p-6">
                 <h3 className="font-heading text-2xl font-bold text-white mb-1">
-                  {categories.farmhouse.title}
+                  {categories.retail.title}
                 </h3>
-                <p className="font-body text-sm font-medium text-gray-300">
-                  {categories.farmhouse.count}
+                <p className="font-body text-sm font-medium text-slate-300">
+                  {categories.retail.count}
                 </p>
               </div>
             </div>
 
-            {/* Bungalow Card */}
-            <div className="relative h-[300px] lg:h-1/2 w-full rounded-2xl overflow-hidden group cursor-pointer shadow-md">
+            {/* Industrial Card */}
+            <div className="relative h-[300px] lg:h-1/2 w-full rounded-2xl overflow-hidden group cursor-pointer shadow-md border border-slate-100">
               <Image
-                src={categories.bungalow.image}
-                alt={categories.bungalow.title}
+                src={categories.industrial.image}
+                alt={categories.industrial.title}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
                 sizes="(max-width: 768px) 100vw, 33vw"
@@ -118,21 +120,21 @@ export function CategorySection() {
               <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-brand-navy/20 to-transparent" />
               <div className="absolute bottom-0 left-0 p-6">
                 <h3 className="font-heading text-2xl font-bold text-white mb-1">
-                  {categories.bungalow.title}
+                  {categories.industrial.title}
                 </h3>
-                <p className="font-body text-sm font-medium text-gray-300">
-                  {categories.bungalow.count}
+                <p className="font-body text-sm font-medium text-slate-300">
+                  {categories.industrial.count}
                 </p>
               </div>
             </div>
           </div>
 
-          {/* COLUMN 3: Condominium */}
+          {/* COLUMN 3: IT Parks (Large Vertical) */}
           <div className="h-[500px] lg:h-full w-full">
-            <div className="relative h-full w-full rounded-2xl overflow-hidden group cursor-pointer shadow-md">
+            <div className="relative h-full w-full rounded-2xl overflow-hidden group cursor-pointer shadow-md border border-slate-100">
               <Image
-                src={categories.condo.image}
-                alt={categories.condo.title}
+                src={categories.itPark.image}
+                alt={categories.itPark.title}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
                 sizes="(max-width: 768px) 100vw, 33vw"
@@ -140,16 +142,16 @@ export function CategorySection() {
               <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-brand-navy/20 to-transparent" />
               <div className="absolute bottom-0 left-0 p-8">
                 <h3 className="font-heading text-3xl font-bold text-white mb-2">
-                  {categories.condo.title}
+                  {categories.itPark.title}
                 </h3>
-                <p className="font-body text-base font-medium text-gray-300 mb-6">
-                  {categories.condo.count}
+                <p className="font-body text-base font-medium text-slate-300 mb-6">
+                  {categories.itPark.count}
                 </p>
                 
                 {/* Hover Interaction CTA */}
                 <div className="flex items-center gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:translate-y-4 lg:group-hover:translate-y-0 transition-all duration-300">
                   <span className="font-heading text-sm font-bold uppercase tracking-wider text-white">
-                    View Properties
+                    View Listings
                   </span>
                   <div className="bg-brand-red p-2 rounded-full">
                     <ArrowRight className="w-4 h-4 text-white" />

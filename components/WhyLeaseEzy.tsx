@@ -1,55 +1,71 @@
 'use client';
 
-import Image from 'next/image';
+import { CheckCircle2, FileCheck, TrendingUp, Users } from 'lucide-react';
 
 const points = [
   {
-    title: 'Exclusive Listings',
+    icon: CheckCircle2,
+    title: 'Exclusive Inventory',
     description:
-      'Handpicked towers, campuses, and retail assets that match premium brand expectations across every metro.',
+      'Access off-market listings and premium Grade-A assets across major financial districts.',
   },
   {
-    title: 'Comprehensive Services',
+    icon: FileCheck,
+    title: '360° Compliance',
     description:
-      'From scouting to fit-outs, finance, and legal, we orchestrate the complete lifecycle of every commercial move.',
+      'Rigorous due diligence on titles, zoning, and safety norms to ensure zero legal friction.',
   },
   {
-    title: 'Customer Satisfaction',
+    icon: Users,
+    title: 'Client-Centric Approach',
     description:
-      'White-glove relationship management that keeps stakeholders informed and confident through every milestone.',
+      'Dedicated relationship managers who understand your business model and space requirements.',
   },
   {
-    title: 'Expert Guidance',
+    icon: TrendingUp,
+    title: 'Data-Driven Insights',
     description:
-      'Advisors with hyperlocal intel and institutional-grade process so decisions are fast, data-backed, and de-risked.',
+      'Market rental analysis and future valuation reports to help you negotiate better leases.',
   },
 ];
 
 export function WhyLeaseEzy() {
   return (
-    <section className="bg-white py-20 text-[#0B1120]">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 text-center">
-        <div className="space-y-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.5em] text-brand-red">Why LeaseEzy?</p>
-          <h2 className="text-3xl font-bold md:text-4xl">Built for growth-stage teams</h2>
-          <p className="text-base text-slate-600 md:w-3/4 md:mx-auto">
-            We blend data, relationships, and on-ground intelligence to de-risk every lease and create spaces that scale
-            with ambition.
+    <section className="bg-brand-gray py-20 lg:py-28 text-brand-navy">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-6 lg:px-8 text-center">
+        
+        {/* Header */}
+        <div className="space-y-4 max-w-3xl mx-auto">
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red">
+            Why Choose Us
+          </p>
+          <h2 className="font-heading text-3xl font-bold sm:text-4xl lg:text-5xl">
+            Built for Modern Enterprises
+          </h2>
+          <p className="text-lg text-slate-600">
+            We blend market intelligence with on-ground expertise to de-risk every transaction and accelerate your expansion plans.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
+        {/* Cards Grid */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {points.map((point) => (
-            <article
+            <div
               key={point.title}
-              className="flex flex-col gap-4 rounded-[28px] border border-white/40 bg-gradient-to-b from-[#fdfefe] via-[#edf1f7] to-[#d9dfe9] p-6 text-left shadow-[0_20px_50px_rgba(15,17,32,0.08)] transition hover:-translate-y-1 hover:shadow-[0_30px_60px_rgba(15,17,32,0.15)]"
+              className="flex flex-col items-start gap-4 rounded-xl border border-slate-200 bg-white p-8 text-left shadow-sm transition-all hover:-translate-y-2 hover:shadow-xl hover:border-brand-navy/20"
             >
-              <div className="inline-flex items-center gap-3">
-                <Image src="/net.webp" alt="" width={32} height={32} />
-                <h3 className="text-lg font-semibold">{point.title}</h3>
+              <div className="rounded-lg bg-brand-navy/5 p-3 text-brand-navy">
+                <point.icon className="h-8 w-8" />
               </div>
-              <p className="text-sm text-slate-600">{point.description}</p>
-            </article>
+              <div>
+                <h3 className="font-heading text-lg font-bold text-brand-navy mb-2">
+                  {point.title}
+                </h3>
+                <p className="text-sm leading-relaxed text-slate-600">
+                  {point.description}
+                </p>
+              </div>
+            </div>
           ))}
         </div>
       </div>
@@ -58,4 +74,3 @@ export function WhyLeaseEzy() {
 }
 
 export default WhyLeaseEzy;
-

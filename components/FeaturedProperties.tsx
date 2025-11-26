@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { MapPin } from 'lucide-react';
+import { MapPin, ArrowUpRight, Building2 } from 'lucide-react';
 import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
 import { urlFor } from '@/sanity/lib/image';
@@ -26,66 +26,97 @@ export async function FeaturedProperties() {
   const properties = await client.fetch<Property[]>(propertyQuery);
 
   return (
-    <section id="properties" className="bg-white py-20 text-brand-navy">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 md:px-8">
+    <section id="properties" className="bg-brand-gray py-20 lg:py-28 text-brand-navy">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-6 lg:px-8">
+        
+        {/* Header */}
         <div className="flex flex-col gap-4 text-center md:text-left">
-          <p className="text-xs font-semibold uppercase tracking-[0.5em] text-brand-red">Featured</p>
-          <h2 className="font-heading text-3xl font-bold md:text-4xl">Prime Spaces for Your Business</h2>
-          <p className="text-base text-slate-600 md:text-lg">
-            Latest Grade-A listings curated by our on-ground advisory desk.
+          <div className="flex items-center gap-2 md:justify-start justify-center">
+            <span className="h-2 w-2 rounded-full bg-brand-red animate-pulse"/>
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-red">
+              Market Opportunities
+            </p>
+          </div>
+          <h2 className="font-heading text-3xl font-bold md:text-5xl text-brand-navy">
+            Signature Commercial Assets
+          </h2>
+          <p className="text-lg text-slate-600 max-w-2xl">
+            Handpicked Grade-A offices and retail spaces available for immediate lease.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {/* Grid */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {properties.map((property) => {
             const imageUrl = property.mainImage
-              ? urlFor(property.mainImage).width(800).height(450).fit('crop').url()
+              ? urlFor(property.mainImage).width(800).height(600).fit('crop').url()
               : '';
 
             return (
               <article
                 key={property._id}
-                className="group flex flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm border border-slate-200 transition-all duration-300 hover:shadow-2xl hover:border-brand-navy/20 hover:-translate-y-1"
               >
-                <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-200">
+                {/* Image Section */}
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
                   {typeof imageUrl === 'string' && imageUrl.length > 0 ? (
                     <Image
                       src={imageUrl}
                       alt={property.title}
                       fill
-                      className="object-cover transition duration-500 group-hover:scale-105"
+                      className="object-cover transition duration-700 group-hover:scale-110"
                       sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 400px"
                     />
                   ) : (
-                    <div className="flex h-full items-center justify-center text-sm text-slate-500">
-                      Image coming soon
+                    <div className="flex h-full items-center justify-center text-sm text-slate-400">
+                      <Building2 className="w-12 h-12 opacity-20" />
                     </div>
                   )}
+                  
+                  {/* Badge */}
+                  <div className="absolute top-4 right-4 bg-brand-navy/90 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">
+                    For Lease
+                  </div>
                 </div>
-                <div className="flex flex-1 flex-col gap-3 px-6 py-6">
-                  <h3 className="text-lg font-semibold text-brand-navy line-clamp-2">{property.title}</h3>
-                  <p className="flex items-center gap-2 text-sm text-slate-500">
-                    <MapPin className="h-4 w-4 text-brand-red" />
-                    {property.location ?? 'Location TBA'}
-                  </p>
-                  <p className="text-sm text-slate-600">
-                    Area: <span className="font-semibold">{property.area ?? 'N/A'}</span>
-                  </p>
-                  <Link
-                    href={`/properties/${property._id}`}
-                    className="mt-4 text-sm font-semibold text-brand-red underline decoration-brand-red/40 underline-offset-4"
-                  >
-                    View Details →
-                  </Link>
+
+                {/* Content Section */}
+                <div className="flex flex-1 flex-col p-6">
+                  <div className="mb-4">
+                    <p className="flex items-center gap-1.5 text-xs font-bold text-brand-red uppercase tracking-wider mb-2">
+                      <MapPin className="h-3.5 w-3.5" />
+                      {property.location ?? 'Prime Location'}
+                    </p>
+                    <h3 className="font-heading text-xl font-bold text-brand-navy line-clamp-2 leading-tight">
+                      {property.title}
+                    </h3>
+                  </div>
+
+                  <div className="mt-auto border-t border-slate-100 pt-4 flex items-center justify-between">
+                    <div>
+                      <p className="text-xs text-slate-500 font-medium uppercase">Total Area</p>
+                      <p className="text-sm font-bold text-brand-navy">
+                        {property.area ?? 'Contact for details'}
+                      </p>
+                    </div>
+                    
+                    <Link
+                      href={`/properties/${property._id}`}
+                      className="group/btn flex items-center justify-center w-10 h-10 rounded-full bg-slate-50 border border-slate-200 text-brand-navy transition-all group-hover:bg-brand-red group-hover:text-white group-hover:border-brand-red"
+                    >
+                      <ArrowUpRight className="h-5 w-5 transition-transform group-hover/btn:rotate-45" />
+                    </Link>
+                  </div>
                 </div>
               </article>
             );
           })}
 
           {properties.length === 0 && (
-            <p className="text-center text-sm text-slate-500 md:col-span-2 lg:col-span-3">
-              No listings available right now. Please check back soon.
-            </p>
+            <div className="col-span-full py-12 text-center border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50">
+              <Building2 className="mx-auto h-12 w-12 text-slate-300 mb-4" />
+              <p className="text-slate-500 font-medium">New premium listings are being curated.</p>
+              <p className="text-sm text-slate-400">Check back shortly.</p>
+            </div>
           )}
         </div>
       </div>
@@ -94,4 +125,3 @@ export async function FeaturedProperties() {
 }
 
 export default FeaturedProperties;
-

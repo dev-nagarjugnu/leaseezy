@@ -1,71 +1,91 @@
 import Image from 'next/image';
-import { BadgeCheck, Clock3, ShieldCheck, MapPinned } from 'lucide-react';
+import { BadgeCheck, Clock, ShieldCheck, MapPin } from 'lucide-react';
 
 const benefits = [
   {
     icon: ShieldCheck,
-    title: 'Unmatched Transparency',
-    description: '100% verified titles and clean documentation.',
+    title: 'Verified Titles',
+    description: '100% compliant documentation and clear ownership history.',
   },
   {
-    icon: Clock3,
-    title: 'Instant Occupation',
-    description: 'Move-in ready Grade-A offices.',
+    icon: Clock,
+    title: 'Rapid Move-In',
+    description: 'Grade-A offices ready for immediate business operations.',
   },
   {
     icon: BadgeCheck,
-    title: 'Zero Hidden Costs',
-    description: 'Transparent pricing models.',
+    title: 'Fair Pricing',
+    description: 'Zero hidden costs. Direct negotiation protocols.',
   },
   {
-    icon: MapPinned,
-    title: 'Strategic Network',
-    description: 'Access to premium business hubs.',
+    icon: MapPin,
+    title: 'Prime Locations',
+    description: 'Access to high-demand business districts and IT parks.',
   },
 ];
 
 export function BusinessLifestyle() {
   return (
-    <section className="bg-gradient-to-b from-[#0B1120] via-[#323d4f] to-[#f4f7fb] py-20 text-brand-navy">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 md:px-8">
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-          <div className="space-y-6 text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.35)]">
-            <p className="text-xs font-semibold uppercase tracking-[0.5em] text-brand-red">
-              The LeaseEzy Advantage
-            </p>
-            <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
-              A workspace tailor-made for your growth.
+    <section className="bg-white py-20 lg:py-28 text-brand-navy">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-16 px-6 lg:px-8">
+        
+        {/* Top Section: Text + Image */}
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+          
+          {/* Text Content */}
+          <div className="space-y-6">
+            <div className="flex items-center gap-2">
+              <span className="h-0.5 w-8 bg-brand-red"></span>
+              <p className="text-xs font-bold uppercase tracking-widest text-brand-red">
+                The LeaseEzy Advantage
+              </p>
+            </div>
+            
+            <h2 className="font-heading text-3xl font-bold leading-tight text-brand-navy sm:text-4xl lg:text-5xl">
+              A Workspace Tailored for <br/>
+              <span className="text-slate-500">Corporate Excellence.</span>
             </h2>
-            <p className="text-base leading-relaxed text-slate-200 md:text-lg">
-              With diverse commercial options, you&apos;re not just choosing an office; you&apos;re crafting a headquarters that
-              reflects your brand&apos;s ambition. Beyond mere leasing, we support your business expansion, hassle-free.
+            
+            <p className="text-lg leading-relaxed text-slate-600">
+              Your office is more than just a location; it's a strategic asset. 
+              We move beyond simple listings to curate commercial environments that enhance productivity and reflect your brand's ambition.
             </p>
+
+            <div className="pt-4">
+              <div className="h-1 w-20 bg-brand-navy rounded-full" />
+            </div>
           </div>
-          <div className="relative h-80 w-full overflow-hidden rounded-[2.5rem] shadow-xl sm:h-[420px]">
+
+          {/* Image */}
+          <div className="relative h-[300px] w-full overflow-hidden rounded-2xl shadow-2xl sm:h-[400px] lg:h-[450px]">
             <Image
               src="/leaseEzy-advantage.jpg"
-              alt="Modern corporate office"
+              alt="Premium corporate boardroom and office interior"
               fill
-              className="object-cover"
+              className="object-cover transition-transform duration-700 hover:scale-105"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-l from-black/30 to-transparent" />
+            {/* Subtle overlay to ensure it looks premium */}
+            <div className="absolute inset-0 bg-brand-navy/10" />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        {/* Bottom Section: Benefit Cards */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {benefits.map((benefit) => (
             <div
               key={benefit.title}
-              className="rounded-3xl border border-white/60 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+              className="group rounded-xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-brand-red/30"
             >
-              <div className="mb-4 inline-flex rounded-2xl bg-brand-blue/10 p-3 text-brand-blue">
-                <benefit.icon className="h-5 w-5" />
+              <div className="mb-6 inline-flex rounded-lg bg-brand-red/5 p-4 text-brand-red transition-colors group-hover:bg-brand-red group-hover:text-white">
+                <benefit.icon className="h-6 w-6" />
               </div>
-              <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-navy">
+              <h3 className="font-heading text-sm font-bold uppercase tracking-widest text-brand-navy">
                 {benefit.title}
               </h3>
-              <p className="mt-3 text-sm text-slate-600">{benefit.description}</p>
+              <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                {benefit.description}
+              </p>
             </div>
           ))}
         </div>
@@ -75,4 +95,3 @@ export function BusinessLifestyle() {
 }
 
 export default BusinessLifestyle;
-

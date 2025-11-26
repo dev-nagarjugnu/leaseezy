@@ -2,25 +2,45 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #0f172a;
+  --foreground: #0f172a; /* Deep Navy/Black for text */
 }
 
-@theme inline {
+/* Removed "inline" - just use @theme */
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  
+  /* Map Tailwind's default "font-sans" to your body font variable */
   --font-sans: var(--font-body);
-  --font-mono: var(--font-heading);
+  
+  /* Create a new utility "font-heading" mapping to your heading variable */
+  --font-heading: var(--font-heading);
+
+  /* --- BRAND COLORS (Matched to Logo) --- */
+  
+  /* Deep Navy: For Headings, Text, and Footer */
+  --color-brand-navy: #0f172a; 
+  
+  /* Bright Red: For Buttons, "EZY" accent, and Urgent Links */
+  --color-brand-red: #ef4444; 
+  
+  /* Brand Yellow: For subtle highlights or icons */
+  --color-brand-yellow: #fbbf24;
+  
+  /* Light Gray: For section backgrounds (to keep the "Light Theme") */
+  --color-brand-gray: #f8f9fa;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-body), "Open Sans", system-ui, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* Ensure fallback fonts are present in case variables load slowly */
+  font-family: var(--font-body), "Open Sans", system-ui, sans-serif;
   line-height: 1.6;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Typography Defaults */
 h1,
 h2,
 h3,
@@ -34,4 +54,3 @@ h6,
 .font-body {
   font-family: var(--font-body), "Open Sans", system-ui, sans-serif;
 }
-

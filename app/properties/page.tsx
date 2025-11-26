@@ -13,60 +13,68 @@ import {
   List as ListIcon, 
   X, 
   CheckCircle2, 
-  Star 
+  Building2,
+  Briefcase
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 // --- Types & Mock Data ---
 
-type Category = "All" | "Residential" | "Commercial" | "Villa";
+type Category = "All" | "Office" | "Retail" | "Industrial";
 type ViewMode = "grid" | "list";
 
 interface Property {
   id: string;
   slug: string;
   title: string;
-  category: "Residential" | "Commercial" | "Villa";
+  category: "Office" | "Retail" | "Industrial";
   price: string;
-  priceValue: number; // Added for sorting logic potential
   location: string;
   area: string;
   imageUrl: string;
-  status: "For Sale" | "For Lease";
-  date: string;
+  status: "For Lease" | "For Sale";
+  features: string[];
 }
 
-const MOCK_PROPERTIES: Property[] = Array.from({ length: 45 }).map((_, i) => {
-  const types: ("Residential" | "Commercial" | "Villa")[] = ["Residential", "Commercial", "Villa"];
+const MOCK_PROPERTIES: Property[] = Array.from({ length: 12 }).map((_, i) => {
+  const types: ("Office" | "Retail" | "Industrial")[] = ["Office", "Retail", "Industrial"];
   const type = types[i % 3];
-  const locations = ["Downtown Dubai", "Business Bay", "Palm Jumeirah", "Marina", "Hills Estate"];
   
-  const baseTitle =
-    type === "Villa"
-      ? "Luxury 5-Bed Villa with Sea View"
-      : type === "Commercial"
-      ? "Premium Office Space with City View"
-      : "Modern Apartment with Sea View";
+  // Realistic Commercial Locations
+  const locations = ["BKC, Mumbai", "Cyber City, Gurgaon", "Whitefield, Bangalore", "Hitec City, Hyderabad", "GIFT City, Gujarat"];
+  
+  let baseTitle = "";
+  let features = [];
+
+  if (type === "Office") {
+    baseTitle = `Grade-A Office Suite - Tower ${String.fromCharCode(65+i)}`;
+    features = ["Fitted Out", "24/7 Access", "Cafeteria"];
+  } else if (type === "Retail") {
+    baseTitle = "High Street Retail Frontage";
+    features = ["Main Road Facing", "High Footfall", "Glass Facade"];
+  } else {
+    baseTitle = "Logistics Warehouse & Industrial Shed";
+    features = ["30ft Height", "Loading Bays", "Fire Safety"];
+  }
 
   return {
     id: `prop-${i}`,
     slug: baseTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
     title: baseTitle,
     category: type,
-    price: type === "Commercial" ? "₹ 1.20 L/mo" : "₹ 3.75 Cr",
-    priceValue: i * 10000,
+    price: type === "Industrial" ? "₹ 45/sqft" : type === "Office" ? "₹ 125/sqft" : "₹ 250/sqft",
     location: locations[i % locations.length],
-    area: type === "Villa" ? "5,200 sqft" : type === "Commercial" ? "1,200 sqft" : "1,850 sqft",
+    area: type === "Industrial" ? "25,000 sqft" : type === "Office" ? "5,500 sqft" : "1,200 sqft",
     imageUrl: `https://images.unsplash.com/photo-${
-        type === "Villa" 
-        ? "1613977257363-707ba9348227" 
-        : type === "Commercial" 
-        ? "1497366216548-37526070297c" 
-        : "1545324418-cc1a3fa10c00"
+        type === "Office" 
+        ? "1497366216548-37526070297c" // Office Building
+        : type === "Retail" 
+        ? "1567449303099-1d9c383660ff" // Mall/Shop
+        : "1586528116311-ad8dd3c8310d" // Warehouse
     }?auto=format&fit=crop&w=800&q=80`,
-    status: i % 3 === 0 ? "For Lease" : "For Sale",
-    date: "Added 2 days ago",
+    status: i % 4 === 0 ? "For Sale" : "For Lease",
+    features: features,
   };
 });
 
@@ -78,8 +86,8 @@ const Badge = ({ children }: { children: string }) => {
     <span className={`
       text-[10px] sm:text-xs font-bold px-3 py-1 rounded-sm uppercase tracking-wider shadow-sm
       ${isSale 
-        ? "bg-[#EF4444] text-white" 
-        : "bg-[#0F172A] text-white" 
+        ? "bg-brand-red text-white" 
+        : "bg-brand-navy text-white" 
       }
     `}>
       {children}
@@ -94,7 +102,7 @@ const PropertyCardGrid = ({ property }: { property: Property }) => (
     initial={{ opacity: 0, scale: 0.95 }}
     animate={{ opacity: 1, scale: 1 }}
     exit={{ opacity: 0, scale: 0.95 }}
-    className="group bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-[#EF4444]/30 hover:shadow-2xl transition-all duration-300 flex flex-col h-full"
+    className="group bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-brand-red/30 hover:shadow-2xl transition-all duration-300 flex flex-col h-full"
   >
     <Link href={`/properties/${property.slug}`} className="relative block h-60 overflow-hidden">
       <img
@@ -102,28 +110,38 @@ const PropertyCardGrid = ({ property }: { property: Property }) => (
         alt={property.title}
         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
+      <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/60 via-transparent to-transparent opacity-60" />
       <div className="absolute top-4 left-4 z-10"><Badge>{property.status}</Badge></div>
       <div className="absolute bottom-4 left-4 z-10 text-white">
-          <p className="text-xs font-medium bg-black/30 backdrop-blur-sm px-2 py-1 rounded border border-white/20 inline-flex items-center gap-1">
-            <MapPin size={12} className="text-[#EF4444]" /> {property.location}
+          <p className="text-xs font-bold bg-black/40 backdrop-blur-sm px-2 py-1 rounded border border-white/20 inline-flex items-center gap-1">
+            <MapPin size={12} className="text-brand-red" /> {property.location}
           </p>
       </div>
     </Link>
-    <div className="p-5 flex flex-col flex-grow">
-      <div className="flex justify-between items-start mb-3">
-        <span className="text-[11px] font-bold text-[#EF4444] bg-red-50 px-2 py-1 rounded uppercase tracking-wider">{property.category}</span>
+    <div className="p-6 flex flex-col flex-grow">
+      <div className="flex justify-between items-start mb-4">
+        <span className="text-[10px] font-bold text-brand-red bg-red-50 px-2 py-1 rounded uppercase tracking-wider flex items-center gap-1">
+          <Briefcase size={10} /> {property.category}
+        </span>
       </div>
-      <h3 className="font-heading font-bold text-lg text-[#0F172A] mb-2 line-clamp-2 leading-tight group-hover:text-[#EF4444] transition-colors">{property.title}</h3>
+      <h3 className="font-heading font-bold text-lg text-brand-navy mb-4 line-clamp-2 leading-tight group-hover:text-brand-red transition-colors">{property.title}</h3>
+      
+      {/* Features Row */}
+      <div className="flex gap-2 mb-6 flex-wrap">
+        {property.features.map(f => (
+          <span key={f} className="text-[10px] text-slate-500 bg-slate-100 px-2 py-1 rounded-full">{f}</span>
+        ))}
+      </div>
+
       <div className="mt-auto pt-5 border-t border-slate-100 flex items-end justify-between">
         <div className="flex flex-col">
-          <span className="text-xs text-slate-400 font-semibold uppercase mb-1">Price</span>
-          <span className="font-heading font-bold text-xl text-[#0F172A]">{property.price}</span>
-          <span className="text-xs text-slate-500 mt-1">{property.area}</span>
+          <span className="text-xs text-slate-400 font-bold uppercase mb-1">Total Area</span>
+          <span className="font-heading font-bold text-xl text-brand-navy">{property.area}</span>
+          <span className="text-xs text-slate-500 mt-1 font-medium">Rate: {property.price}</span>
         </div>
         <Link
           href={`/properties/${property.slug}`}
-          className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-400 group-hover:bg-[#EF4444] group-hover:border-[#EF4444] group-hover:text-white transition-all duration-300"
+          className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-400 group-hover:bg-brand-red group-hover:border-brand-red group-hover:text-white transition-all duration-300"
         >
           <ArrowRight size={18} />
         </Link>
@@ -139,38 +157,42 @@ const PropertyCardList = ({ property }: { property: Property }) => (
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0 }}
-    className="group bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-[#EF4444]/30 hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row h-auto md:h-52"
+    className="group bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-brand-red/30 hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row h-auto md:h-56"
   >
-    <Link href={`/properties/${property.slug}`} className="relative block w-full md:w-72 h-48 md:h-full shrink-0 overflow-hidden">
+    <Link href={`/properties/${property.slug}`} className="relative block w-full md:w-80 h-48 md:h-full shrink-0 overflow-hidden">
       <img src={property.imageUrl} alt={property.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
       <div className="absolute top-4 left-4 z-10"><Badge>{property.status}</Badge></div>
     </Link>
     
-    <div className="p-5 flex flex-col justify-between flex-grow">
+    <div className="p-6 flex flex-col justify-between flex-grow">
       <div>
-        <div className="flex justify-between items-center mb-2">
-           <span className="text-xs text-slate-400 font-medium flex items-center gap-1">
-             <MapPin size={14} className="text-[#EF4444]" /> {property.location}
+        <div className="flex justify-between items-center mb-3">
+           <span className="text-xs text-slate-500 font-bold flex items-center gap-1">
+             <MapPin size={14} className="text-brand-red" /> {property.location}
            </span>
-           <span className="text-[11px] font-bold text-[#EF4444] bg-red-50 px-2 py-1 rounded uppercase">{property.category}</span>
+           <span className="text-[10px] font-bold text-brand-red bg-red-50 px-2 py-1 rounded uppercase">{property.category}</span>
         </div>
-        <h3 className="font-heading font-bold text-xl text-[#0F172A] mb-2 group-hover:text-[#EF4444] transition-colors">{property.title}</h3>
-        <p className="text-sm text-slate-500 line-clamp-2">Featuring premium amenities, modern architecture, and situated in the heart of {property.location}, this property offers an unparalleled lifestyle.</p>
+        <h3 className="font-heading font-bold text-xl text-brand-navy mb-2 group-hover:text-brand-red transition-colors">{property.title}</h3>
+        <div className="flex gap-2 mt-2">
+            {property.features.map(f => (
+              <span key={f} className="text-[10px] text-slate-500 border border-slate-200 px-2 py-1 rounded">{f}</span>
+            ))}
+        </div>
       </div>
 
       <div className="flex items-center justify-between mt-4 md:mt-0 pt-4 border-t border-slate-100">
-         <div className="flex gap-6">
+         <div className="flex gap-8">
             <div>
-              <span className="text-[10px] text-slate-400 uppercase tracking-wide">Price</span>
-              <p className="font-bold text-lg text-[#0F172A]">{property.price}</p>
+              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wide">Area</span>
+              <p className="font-bold text-lg text-brand-navy">{property.area}</p>
             </div>
             <div>
-              <span className="text-[10px] text-slate-400 uppercase tracking-wide">Area</span>
-              <p className="font-medium text-slate-700">{property.area}</p>
+              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wide">Rate</span>
+              <p className="font-medium text-slate-700">{property.price}</p>
             </div>
          </div>
-         <Link href={`/properties/${property.slug}`} className="px-5 py-2 rounded-lg bg-[#0F172A] text-white text-sm font-bold hover:bg-[#EF4444] transition-colors shadow-lg shadow-slate-900/10">
-           View Details
+         <Link href={`/properties/${property.slug}`} className="px-6 py-2.5 rounded-lg bg-brand-navy text-white text-xs font-bold uppercase tracking-widest hover:bg-brand-red transition-colors shadow-lg shadow-navy-900/10">
+           View Asset
          </Link>
       </div>
     </div>
@@ -181,10 +203,10 @@ const FilterButton = ({ active, onClick, label }: { active: boolean; onClick: ()
   <button
     onClick={onClick}
     className={`
-      px-6 py-2.5 rounded-full font-heading font-semibold text-sm transition-all duration-300 relative overflow-hidden
+      px-6 py-2.5 rounded-full font-heading font-bold text-sm transition-all duration-300 relative overflow-hidden uppercase tracking-wide
       ${active
-        ? "bg-[#EF4444] text-white shadow-lg shadow-red-500/30 ring-2 ring-red-400/20"
-        : "bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20 hover:border-white/40"
+        ? "bg-brand-red text-white shadow-lg shadow-red-500/30"
+        : "bg-white text-brand-navy border border-slate-200 hover:bg-slate-50 hover:border-brand-navy/30"
       }
     `}
   >
@@ -223,9 +245,9 @@ function PropertiesContent() {
     if (!categoryParam) return;
     const map: Record<string, Category> = {
       all: "All",
-      residential: "Residential",
-      commercial: "Commercial",
-      villa: "Villa",
+      office: "Office",
+      retail: "Retail",
+      industrial: "Industrial",
     };
     const normalized = categoryParam.toLowerCase();
     const mappedCategory = map[normalized];
@@ -234,7 +256,6 @@ function PropertiesContent() {
     }
   }, [searchParams, activeCategory]);
 
-  // Complex Filtering Logic
   const filteredProperties = properties.filter((p) => {
     const categoryMatch = activeCategory === "All" || p.category === activeCategory;
     const locationMatch = filterLocation === "All" || p.location === filterLocation;
@@ -242,39 +263,34 @@ function PropertiesContent() {
     return categoryMatch && locationMatch && statusMatch;
   });
 
-  // Pagination
-  const ITEMS_PER_PAGE = viewMode === 'grid' ? 12 : 8; // Show fewer items in list view
+  const ITEMS_PER_PAGE = viewMode === 'grid' ? 9 : 6;
   const totalPages = Math.ceil(filteredProperties.length / ITEMS_PER_PAGE);
   const paginatedProperties = filteredProperties.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   useEffect(() => { setCurrentPage(1); }, [activeCategory, filterLocation, filterStatus, viewMode]);
 
   return (
-    <div className="min-h-screen flex flex-col font-body bg-slate-50">
+    <div className="min-h-screen flex flex-col font-body bg-white text-brand-navy">
       <Navbar />
       
-      {/* 1. Hero Section */}
-      <section className="relative py-28 sm:py-36 flex flex-col items-center justify-center text-center px-4 overflow-hidden">
-        <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105"
-            style={{ backgroundImage: "url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=80')" }} 
-        >
-          <div className="absolute inset-0 bg-[#0F172A]/90"></div>
-        </div>
-
-        <div className="relative z-10 max-w-4xl mx-auto space-y-6 animate-fade-in-up">
-          <h1 className="font-heading font-extrabold text-4xl sm:text-5xl lg:text-6xl text-white tracking-tight">
-            Find Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#EF4444] to-orange-400">Signature Space</span>
+      {/* 1. Hero Section (Clean White Commercial Look) */}
+      <section className="relative pt-32 pb-20 flex flex-col items-center justify-center text-center px-4 overflow-hidden bg-brand-gray border-b border-slate-200">
+        <div className="max-w-4xl mx-auto space-y-6 animate-fade-in-up">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-red">
+             Our Portfolio
+          </p>
+          <h1 className="font-heading font-extrabold text-4xl sm:text-5xl lg:text-6xl text-brand-navy tracking-tight">
+            Find Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-red to-brand-navy">Signature Space</span>
           </h1>
-          <p className="text-slate-300 text-lg sm:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
-            Curated commercial and residential properties for the discerning client.
+          <p className="text-slate-500 text-lg font-medium max-w-2xl mx-auto leading-relaxed">
+            Curated Grade-A offices, high-street retail, and industrial assets for discerning enterprises.
           </p>
 
           <div className="flex flex-wrap justify-center gap-3 mt-8">
-            {["All", "Residential", "Commercial", "Villa"].map((cat) => (
+            {["All", "Office", "Retail", "Industrial"].map((cat) => (
               <FilterButton
                 key={cat}
-                label={cat === "All" ? "All Properties" : cat}
+                label={cat === "All" ? "All Assets" : cat}
                 active={activeCategory === cat}
                 onClick={() => setActiveCategory(cat as Category)}
               />
@@ -284,34 +300,34 @@ function PropertiesContent() {
       </section>
 
       {/* 2. Controls & Grid Section */}
-      <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full -mt-12 relative z-20">
+      <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
         
         {/* Active Filters Bar */}
-        <div className="bg-white p-4 rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 flex flex-col gap-4">
+        <div className="bg-white p-4 rounded-xl border border-slate-200 flex flex-col gap-4 mb-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <span className="font-heading font-bold text-[#0F172A] text-lg">
-              <span className="text-[#EF4444]">{filteredProperties.length}</span> Premium Listings
+            <span className="font-heading font-bold text-brand-navy text-lg">
+              Showing <span className="text-brand-red">{filteredProperties.length}</span> Premium Assets
             </span>
             
             <div className="flex items-center gap-3 w-full sm:w-auto">
               <button 
                 onClick={() => setShowFilters(!showFilters)}
-                className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border text-sm font-semibold transition-all ${showFilters ? 'bg-slate-100 border-slate-300 text-[#0F172A]' : 'bg-white border-slate-200 text-slate-600 hover:border-[#EF4444]'}`}
+                className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border text-sm font-semibold transition-all ${showFilters ? 'bg-slate-100 border-slate-300 text-brand-navy' : 'bg-white border-slate-200 text-slate-600 hover:border-brand-red'}`}
               >
-                <Filter size={16} className={showFilters ? "text-[#EF4444]" : ""} />
+                <Filter size={16} className={showFilters ? "text-brand-red" : ""} />
                 {showFilters ? "Hide Filters" : "Filters"}
               </button>
 
               <div className="flex gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200">
                   <button 
                     onClick={() => setViewMode('grid')}
-                    className={`p-2 rounded-md transition-all ${viewMode === 'grid' ? 'bg-white text-[#0F172A] shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                    className={`p-2 rounded-md transition-all ${viewMode === 'grid' ? 'bg-white text-brand-navy shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
                   >
                     <LayoutGrid size={18}/>
                   </button>
                   <button 
                     onClick={() => setViewMode('list')}
-                    className={`p-2 rounded-md transition-all ${viewMode === 'list' ? 'bg-white text-[#0F172A] shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                    className={`p-2 rounded-md transition-all ${viewMode === 'list' ? 'bg-white text-brand-navy shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
                   >
                     <ListIcon size={18}/>
                   </button>
@@ -332,20 +348,20 @@ function PropertiesContent() {
                    <div className="space-y-1">
                       <label className="text-xs font-bold text-slate-500 uppercase">Location</label>
                       <select 
-                        className="w-full p-2.5 rounded-lg border border-slate-200 bg-slate-50 text-sm focus:ring-2 focus:ring-[#EF4444] outline-none"
+                        className="w-full p-2.5 rounded-lg border border-slate-200 bg-slate-50 text-sm focus:ring-2 focus:ring-brand-red outline-none text-brand-navy"
                         value={filterLocation}
                         onChange={(e) => setFilterLocation(e.target.value)}
                       >
                         <option value="All">All Locations</option>
-                        <option value="Downtown Dubai">Downtown Dubai</option>
-                        <option value="Business Bay">Business Bay</option>
-                        <option value="Palm Jumeirah">Palm Jumeirah</option>
+                        <option value="BKC, Mumbai">BKC, Mumbai</option>
+                        <option value="Cyber City, Gurgaon">Cyber City, Gurgaon</option>
+                        <option value="GIFT City, Gujarat">GIFT City, Gujarat</option>
                       </select>
                    </div>
                    <div className="space-y-1">
                       <label className="text-xs font-bold text-slate-500 uppercase">Status</label>
                       <select 
-                        className="w-full p-2.5 rounded-lg border border-slate-200 bg-slate-50 text-sm focus:ring-2 focus:ring-[#EF4444] outline-none"
+                        className="w-full p-2.5 rounded-lg border border-slate-200 bg-slate-50 text-sm focus:ring-2 focus:ring-brand-red outline-none text-brand-navy"
                         value={filterStatus}
                         onChange={(e) => setFilterStatus(e.target.value)}
                       >
@@ -357,7 +373,7 @@ function PropertiesContent() {
                    <div className="flex items-end">
                       <button 
                         onClick={() => { setFilterLocation("All"); setFilterStatus("All"); }}
-                        className="w-full p-2.5 text-sm text-[#EF4444] font-bold hover:bg-red-50 rounded-lg transition-colors flex items-center justify-center gap-2"
+                        className="w-full p-2.5 text-sm text-brand-red font-bold hover:bg-red-50 rounded-lg transition-colors flex items-center justify-center gap-2"
                       >
                         <X size={14} /> Clear All Filters
                       </button>
@@ -369,25 +385,25 @@ function PropertiesContent() {
         </div>
 
         {/* Results Area */}
-        <div className="mt-8 min-h-[400px]">
+        <div className="min-h-[400px]">
           {loading ? (
-             <div className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' : 'grid-cols-1'}`}>
-               {Array.from({ length: 8 }).map((_, i) => (
-                 <div key={i} className={`bg-white rounded-2xl border border-slate-200 animate-pulse ${viewMode === 'grid' ? 'h-96' : 'h-48'}`} />
+             <div className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}>
+               {Array.from({ length: 6 }).map((_, i) => (
+                 <div key={i} className={`bg-white rounded-xl border border-slate-200 animate-pulse ${viewMode === 'grid' ? 'h-96' : 'h-48'}`} />
                ))}
              </div>
           ) : filteredProperties.length === 0 ? (
-            <div className="text-center py-20 bg-white rounded-2xl border border-slate-200 shadow-sm">
+            <div className="text-center py-20 bg-white rounded-xl border border-slate-200 shadow-sm">
               <div className="bg-slate-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Search size={32} className="text-slate-400" />
               </div>
-              <h3 className="text-xl font-heading font-bold text-[#0F172A]">No Properties Match</h3>
-              <p className="text-slate-500 mt-2">Try resetting your filters.</p>
+              <h3 className="text-xl font-heading font-bold text-brand-navy">No Assets Found</h3>
+              <p className="text-slate-500 mt-2">Adjust your filters to see more commercial options.</p>
             </div>
           ) : (
             <motion.div 
               layout
-              className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' : 'grid-cols-1 max-w-4xl mx-auto'}`}
+              className={`grid gap-8 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1 max-w-4xl mx-auto'}`}
             >
               <AnimatePresence mode="popLayout">
                 {paginatedProperties.map((property) => (
@@ -401,11 +417,11 @@ function PropertiesContent() {
 
           {/* Pagination */}
           {!loading && filteredProperties.length > 0 && (
-             <div className="flex justify-center gap-2 mt-12">
+             <div className="flex justify-center gap-2 mt-16">
                 <button 
                   onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                   disabled={currentPage === 1}
-                  className="px-4 py-2 rounded-lg border border-slate-200 text-[#0F172A] font-bold disabled:opacity-50 hover:bg-slate-50"
+                  className="px-4 py-2 rounded-lg border border-slate-200 text-brand-navy font-bold disabled:opacity-50 hover:bg-slate-50"
                 >
                   Prev
                 </button>
@@ -413,7 +429,7 @@ function PropertiesContent() {
                 <button 
                   onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                   disabled={currentPage === totalPages}
-                  className="px-4 py-2 rounded-lg border border-slate-200 text-[#0F172A] font-bold disabled:opacity-50 hover:bg-slate-50"
+                  className="px-4 py-2 rounded-lg border border-slate-200 text-brand-navy font-bold disabled:opacity-50 hover:bg-slate-50"
                 >
                   Next
                 </button>
@@ -422,9 +438,9 @@ function PropertiesContent() {
         </div>
       </main>
 
-      {/* 5. NEW CTA SECTION: "Consultation" Focused (Fixed Visual) */}
-      <section className="relative py-24 px-4 overflow-hidden bg-[#0F172A]">
-        {/* Background Image with Dark Overlay */}
+      {/* 5. NEW CTA SECTION: Consultation Widget (Fixed "3BHK" issue) */}
+      <section className="relative py-24 px-4 overflow-hidden bg-brand-navy mt-12">
+        {/* Background Image */}
         <div className="absolute inset-0 opacity-20" 
              style={{ 
                backgroundImage: "url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2000&auto=format&fit=crop')",
@@ -433,29 +449,26 @@ function PropertiesContent() {
              }} 
         />
         
-        {/* Red Glow Effect */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#EF4444] rounded-full blur-[150px] opacity-10 pointer-events-none"></div>
-
         <div className="relative z-10 max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12">
           
           {/* Left Text Content */}
           <div className="flex-1 space-y-8 text-center md:text-left">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-[#EF4444] text-xs font-bold uppercase tracking-widest mb-4 backdrop-blur-md">
-                <CheckCircle2 size={12} /> Expert Guidance
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-brand-red text-xs font-bold uppercase tracking-widest mb-4 backdrop-blur-md">
+                <CheckCircle2 size={12} /> Expert Advisory
               </div>
               <h2 className="text-4xl md:text-5xl font-heading font-extrabold text-white leading-tight">
                 Can't Find The <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-200 to-slate-400">Perfect Match?</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-200 to-slate-400">Right Asset?</span>
               </h2>
             </div>
             
             <p className="text-slate-400 text-lg max-w-xl mx-auto md:mx-0 leading-relaxed">
-              Don't waste time scrolling. Our dedicated property consultants have access to off-market inventory and can curate a shortlist tailored to your specific business or residential needs.
+              Don't waste time scrolling. Our dedicated property consultants have access to off-market inventory and can curate a shortlist tailored to your specific business needs.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-               <button className="px-8 py-4 bg-[#EF4444] hover:bg-[#d93838] text-white font-bold rounded-lg shadow-[0_20px_50px_-12px_rgba(239,68,68,0.5)] transition-all hover:scale-105 flex items-center justify-center gap-2">
+               <button className="px-8 py-4 bg-brand-red hover:bg-[#d93838] text-white font-bold rounded-lg shadow-[0_20px_50px_-12px_rgba(239,68,68,0.5)] transition-all hover:scale-105 flex items-center justify-center gap-2">
                  Schedule a Free Call <ArrowRight size={20} />
                </button>
             </div>
@@ -463,14 +476,12 @@ function PropertiesContent() {
 
           {/* Right Visual Element (The "Consultation Widget" Look) */}
           <div className="flex-1 w-full max-w-md">
-             {/* This represents a "Booking Interface" - Professional & Service Oriented */}
              <div className="relative bg-slate-900/80 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-2xl transform md:rotate-2 transition-transform hover:rotate-0 duration-500">
                 
                 {/* Header of the Card */}
                 <div className="flex items-center gap-4 mb-6 border-b border-white/10 pb-4">
                    <div className="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center overflow-hidden">
-                      {/* Placeholder for Agent Avatar */}
-                      <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80" alt="Agent" className="w-full h-full object-cover opacity-80" />
+                      <Briefcase className="text-white/50" />
                    </div>
                    <div>
                       <p className="text-white font-bold text-sm">Priority Consultation</p>
@@ -485,7 +496,7 @@ function PropertiesContent() {
                 <div className="space-y-3 mb-6">
                    <p className="text-xs text-slate-400 font-medium uppercase">Select a Time</p>
                    <div className="grid grid-cols-2 gap-2">
-                      <div className="px-3 py-2 rounded bg-[#EF4444] text-white text-xs font-bold text-center border border-[#EF4444] shadow-lg shadow-red-900/20 cursor-default">
+                      <div className="px-3 py-2 rounded bg-brand-red text-white text-xs font-bold text-center border border-brand-red shadow-lg shadow-red-900/20 cursor-default">
                         Today, 4:00 PM
                       </div>
                       <div className="px-3 py-2 rounded bg-slate-800 text-slate-400 text-xs font-medium text-center border border-slate-700">
@@ -494,18 +505,18 @@ function PropertiesContent() {
                    </div>
                 </div>
 
-                {/* Simulated Inquiry Details */}
+                {/* Simulated Inquiry Details (FIXED: No more 3BHK) */}
                 <div className="space-y-2">
                    <div className="h-2 w-1/3 bg-slate-700 rounded-full"></div>
                    <div className="h-10 w-full bg-slate-800/50 rounded-lg border border-slate-700 flex items-center px-3">
-                      <span className="text-xs text-slate-500">I'm looking for a 3BHK in...</span>
+                      <span className="text-xs text-slate-500">Looking for 5,000 sqft Office in BKC...</span>
                    </div>
                 </div>
 
                 {/* Bottom Decor */}
                 <div className="pt-6 mt-4 border-t border-white/5 flex justify-between items-center text-[10px] text-slate-500">
                    <span>LeaseEzy Concierge</span>
-                   <span className="flex items-center gap-1"><CheckCircle2 size={10} className="text-[#EF4444]" /> Verified Partner</span>
+                   <span className="flex items-center gap-1"><CheckCircle2 size={10} className="text-brand-red" /> Verified Partner</span>
                 </div>
              </div>
           </div>
@@ -520,7 +531,7 @@ function PropertiesContent() {
 
 export default function PropertiesPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-slate-50 text-[#0F172A] font-heading text-lg">Loading properties...</div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-white text-brand-navy font-heading text-lg">Loading portfolio...</div>}>
       <PropertiesContent />
     </Suspense>
   );
